@@ -17,14 +17,16 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Dependencies
+        run: | 
+          npm install
+          cd ..
+
       - name: Install Snyk
         run: npm install -g snyk
 
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
-
-      - name: Install Dependencies
-        run: npm install
 
       - name: Run Snyk Vulnerability Scan
         run: snyk test --all-projects --json-file-output=snyk-results.json

@@ -24,7 +24,7 @@ jobs:
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
       - name: Run Snyk Vulnerability Scan
-        run: snyk test --json > snyk-results.json
+        run: snyk test --json-file-output=snyk-results.json
 
       - name: Upload Scan Results
         uses: actions/upload-artifact@v4

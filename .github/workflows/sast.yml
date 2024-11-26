@@ -1,22 +1,27 @@
-name: Static Application Security Testing (SAST)
+name: "SAST with Semgrep"
 
 on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  sast:
+  semgrep:
+    name: Static Analysis with Semgrep
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: javascript, typescript
+      - name: Install Semgrep
+        run: pip install semgrep
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+      - name: Run Semgrep Scan
+        run: semgrep --config p/ci --json > sast-results.json
+
+      - name: Upload SAST Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-results
+          path: sast-results.json

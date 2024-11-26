@@ -1,0 +1,30 @@
+name: "Container Security with Grype"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  grype_scan:
+    name: Scan Docker Image for Vulnerabilities
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t juice-shop:latest .
+
+      - name: Scan Image with Grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh
+          grype juice-shop:latest --output json > grype-results.json
+
+      - name: Upload Grype Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: grype-results
+          path: grype-results.json

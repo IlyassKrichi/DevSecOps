@@ -17,14 +17,16 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run Snyk Scan
-        uses: snyk/actions/setup@master
-        with:
-          command: snyk test --json > snyk-results.json
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      - name: Install Snyk
+        run: npm install -g snyk
 
-      - name: Upload SCA Results
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Run Snyk Vulnerability Scan
+        run: snyk test --json > snyk-results.json
+
+      - name: Upload Scan Results
         uses: actions/upload-artifact@v4
         with:
           name: sca-results

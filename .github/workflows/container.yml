@@ -2,9 +2,6 @@ name: "Container Security with Grype"
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   grype_scan:

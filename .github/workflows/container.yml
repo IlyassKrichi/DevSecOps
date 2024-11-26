@@ -15,12 +15,11 @@ jobs:
       - name: Build Docker Image
         run: docker build -t juice-shop:latest .
 
-      - name: Install Grype with apt
+      - name: Install Grype
         run: |
-          sudo apt-get update
-          sudo apt-get install grype
-          grype --version  # Verify installation
-
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh
+          echo "$HOME/bin" >> $GITHUB_PATH 
+          grype --version
 
       - name: Scan Image with Grype
         run: grype juice-shop:latest --output json > grype-results.json

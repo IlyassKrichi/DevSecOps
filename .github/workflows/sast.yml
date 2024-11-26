@@ -16,9 +16,7 @@ jobs:
       - name: Setup CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages:
-            - javascript
-            - typescript
+          languages: javascript, typescript
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

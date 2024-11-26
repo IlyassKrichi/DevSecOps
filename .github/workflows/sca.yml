@@ -23,6 +23,9 @@ jobs:
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
+      - name: Install Dependencies
+        run: npm install
+
       - name: Run Snyk Vulnerability Scan
         run: snyk test --json-file-output=snyk-results.json
 

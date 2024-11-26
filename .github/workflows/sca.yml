@@ -1,0 +1,19 @@
+name: Software Composition Analysis (SCA)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sca:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Dependency Check
+        run: |
+          curl -LO https://github.com/jeremylong/DependencyCheck/releases/download/v11.1.0/dependency-check-11.1.0-release.zip
+          unzip dependency-check-11.1.0-release.zip -d dependency-check
+        
+      - name: Run Dependency Check
+        run: dependency-check/bin/dependency-check.sh --project JuiceShop --scan .

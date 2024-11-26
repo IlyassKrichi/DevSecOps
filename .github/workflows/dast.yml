@@ -1,0 +1,17 @@
+name: Dynamic Application Security Testing (DAST)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  dast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Juice Shop
+        run: docker run -d -p 3000:3000 bkimminich/juice-shop
+
+      - name: Install OWASP ZAP
+        run: sudo apt-get install zaproxy -y
+
+      - name: Perform DAST
+        run: zap-cli quick-scan --start --spider --active-scan http://localhost:3000
